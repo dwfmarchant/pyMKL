@@ -11,7 +11,16 @@ import pyMKL
 class TestMKLUtils(unittest.TestCase):
 
     def test_mkl_get_version(self):
-        pyMKL.mkl_get_version()
+        versionString = pyMKL.mkl_get_version()
+        print(versionString)
+
+    def test_mkl_get_max_threads(self):
+        max_threads = pyMKL.mkl_get_max_threads()
+        print("Max. Threads: {}".format(max_threads))
+
+    def test_mkl_set_num_threads(self):
+        pyMKL.mkl_set_num_threads(1)
+        pyMKL.mkl_set_num_threads(pyMKL.mkl_get_max_threads())
 
 if __name__ == '__main__':
     unittest.main()

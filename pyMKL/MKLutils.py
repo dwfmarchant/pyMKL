@@ -33,3 +33,20 @@ def mkl_get_version():
     versionString = 'Intel(R) Math Kernel Library Version {MajorVersion}.{MinorVersion}.{UpdateVersion} {ProductStatus} Build {Build} for {Platform} applications'.format(**version)
 
     return versionString
+
+
+_mkl_get_max_threads = MKLlib.mkl_get_max_threads
+_mkl_get_max_threads.argtypes = None
+_mkl_get_max_threads.restype = c_int
+
+def mkl_get_max_threads():
+    max_threads = _mkl_get_max_threads()
+    return max_threads
+
+
+_mkl_set_num_threads = MKLlib.mkl_set_num_threads
+_mkl_set_num_threads.argtypes = [POINTER(c_int)]
+_mkl_set_num_threads.restype = None
+
+def mkl_set_num_threads(num_threads):
+    _mkl_set_num_threads(c_int(num_threads))
