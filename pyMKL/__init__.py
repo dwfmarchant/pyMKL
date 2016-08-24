@@ -12,5 +12,6 @@ from .loadMKL import _loadMKL
 
 MKLlib = _loadMKL()
 
+from .MKLutils import mkl_get_version
 from .pardisoInterface import pardisoinit, pardiso
 from .pardisoSolver import pardisoSolver
