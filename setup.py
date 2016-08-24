@@ -26,7 +26,7 @@ CLASSIFIERS = [
 ]
 
 with open('README.md') as fp:
-    LONG_DESCRIPTION = ''.join(fp.readlines())
+    LONG_DESCRIPTION = ' '.join(fp.readlines())
 
 setup(
     name = 'pyMKL',
@@ -38,12 +38,12 @@ setup(
                        ],
     author = 'Dave Marchant',
     author_email = 'dwfmarchant@gmail.com',
-    description = 'pyMKL',
+    description = 'Python wrapper of Intel MKL routines',
     long_description = LONG_DESCRIPTION,
     license = 'MIT',
     keywords = 'sparse linear solver mkl pardiso',
-    url = 'https://github.com/dwfmarchant/pyMKL',
-    download_url = 'https://github.com/dwfmarchant/pyMKL',
+    url = 'https://github.com/dwfmarchant/pyMKL',    
+    download_url = 'https://github.com/dwfmarchant/pyMKL/tarball/0.0.1',
     classifiers = CLASSIFIERS,
     platforms = ['Windows', 'Linux', 'Solaris', 'Mac OS-X', 'Unix'],
     use_2to3 = False,
