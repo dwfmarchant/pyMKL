@@ -94,7 +94,10 @@ class pardisoSolver(object):
             A = sp.triu(A, format='csr')
         elif mtype in [11, 13]:
             A = A.tocsr()
-        
+
+        if not A.has_sorted_indices:
+            A.sort_indices()
+
         self.a = A.data
         self.ia = A.indptr
         self.ja = A.indices
