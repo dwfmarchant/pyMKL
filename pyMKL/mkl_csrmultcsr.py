@@ -199,7 +199,7 @@ _mkl_zcsrmultcsr.argtypes = [POINTER(c_char),   #trans
                              POINTER(c_int)]     #info 
 _mkl_zcsrmultcsr.restype = None
 
-def mkl_zcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans='N', sort=7):
+def mkl_zcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans=b'N', sort=7):
 
     trans_point = byref(c_char(bytes(trans)))
     sort_point = byref(c_int(sort))
@@ -286,7 +286,7 @@ _mkl_ccsrmultcsr.argtypes = [POINTER(c_char),   #trans
                              POINTER(c_int)]     #info 
 _mkl_ccsrmultcsr.restype = None
 
-def mkl_ccsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans='N', sort=7):
+def mkl_ccsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans=b'N', sort=7):
 
     trans_point = byref(c_char(bytes(trans)))
     sort_point = byref(c_int(sort))
