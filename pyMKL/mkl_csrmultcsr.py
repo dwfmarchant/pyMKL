@@ -29,7 +29,7 @@ _mkl_dcsrmultcsr.argtypes = [POINTER(c_char),   #trans
                              POINTER(c_int)]     #info 
 _mkl_dcsrmultcsr.restype = None
 
-def mkl_dcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans='N', sort=7):
+def mkl_dcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans=b'N', sort=7):
 
     trans_point = byref(c_char(bytes(trans)))
     sort_point = byref(c_int(sort))
@@ -49,9 +49,9 @@ def mkl_dcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans='N', sort=7):
     request = 1
     request_point = byref(c_int(request))
 
-    c = np.zeros(1, dtype=np.float64)
-    jc = np.zeros(1, dtype=np.int32)
-    ic = np.zeros(m+1, dtype=np.int32)
+    c = np.zeros(1, dtype=c_double)
+    jc = np.zeros(1, dtype=c_int)
+    ic = np.zeros(m+1, dtype=c_int)
     nzmax = 0
 
     c_point = c.ctypes.data_as(POINTER(c_double))
@@ -73,8 +73,8 @@ def mkl_dcsrmultcsr(m, n, k, a, ja, ia, b, jb, ib, trans='N', sort=7):
     request = 2
     request_point = byref(c_int(request))
 
-    c = np.zeros(nnz_c, dtype=np.float64)
-    jc = np.zeros(nnz_c, dtype=np.int32)
+    c = np.zeros(nnz_c, dtype=c_double)
+    jc = np.zeros(nnz_c, dtype=c_int)
     nzmax = nnz_c
 
     c_point = c.ctypes.data_as(POINTER(c_double))

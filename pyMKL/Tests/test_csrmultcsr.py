@@ -8,12 +8,13 @@ standard_library.install_aliases()
 import unittest
 import pyMKL
 import scipy.sparse as sp
+import numpy as np
 
-class TestCsrmulcsr(unittest.TestCase):
+class Test_dcsrmulcsr(unittest.TestCase):
 
     nSize = 500
-    A = sp.rand(nSize, nSize, 0.05, format='csr', random_state=1)
-    B = sp.rand(nSize, nSize, 0.05, format='csr', random_state=2)
+    A = sp.rand(nSize, nSize, 0.05, format='csr', dtype=np.float64, random_state=1)
+    B = sp.rand(nSize, nSize, 0.05, format='csr', dtype=np.float64, random_state=2)
 
     a = A.data
     ja = A.indices+1
