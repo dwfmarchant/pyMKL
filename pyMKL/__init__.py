@@ -15,4 +15,4 @@ MKLlib = _loadMKL()
 from .MKLutils import mkl_get_version, mkl_get_max_threads, mkl_set_num_threads
 from .pardisoInterface import pardisoinit, pardiso
 from .pardisoSolver import pardisoSolver
-from .mkl_csrmultcsr import mkl_dcsrmultcsr
+from .mkl_csrmultcsr import mkl_dcsrmultcsr, mkl_scsrmultcsr, mkl_zcsrmultcsr, mkl_ccsrmultcsr
