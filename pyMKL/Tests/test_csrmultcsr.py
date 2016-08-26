@@ -38,7 +38,7 @@ class Test_dcsrmulcsr(unittest.TestCase):
         c, jc, ic = pyMKL.mkl_dcsrmultcsr(self.m, self.n, self.k, 
                                           self.a, self.ja, self.ia, 
                                           self.b, self.jb, self.ib,
-                                          trans='T')
+                                          trans=b'T')
         C_mkl = sp.csr_matrix((c, jc-1,ic-1),(self.m,self.k))
         diff = C_sp - C_mkl
         self.assertEquals(diff.nnz,0)
