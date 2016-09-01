@@ -128,7 +128,7 @@ class pardisoSolver(object):
         pardisoinit(self._MKL_pt, byref(c_int(self.mtype)), self._MKL_iparm)
 
         # Set iparm
-        self.iparm[1] = 3 # Use parallel nested dissection for reordering
+        self.iparm[1] = 0 # Use parallel nested dissection for reordering
         self.iparm[23] = 1 # Use parallel factorization
         self.iparm[34] = 1 # Zero base indexing
 
