@@ -6,7 +6,7 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import object
 
-from pyMKL import pardisoinit, pardiso
+from pyMKL import pardisoinit, pardiso, mkl_get_version
 from ctypes import POINTER, byref, c_longlong, c_int
 import numpy as np
 import scipy.sparse as sp
@@ -127,8 +127,12 @@ class pardisoSolver(object):
         # Initialize pardiso
         pardisoinit(self._MKL_pt, byref(c_int(self.mtype)), self._MKL_iparm)
 
+        verstring = mkl_get_version()
         # Set iparm
-        self.iparm[1] = 3 # Use parallel nested dissection for reordering
+        if '11.3.3' in verstring:
+            self.iparm[1] = 0 
+        else:
+            self.iparm[1] = 3 # Use parallel nested dissection for reordering
         self.iparm[23] = 1 # Use parallel factorization
         self.iparm[34] = 1 # Zero base indexing
 
