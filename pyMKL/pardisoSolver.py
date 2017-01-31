@@ -135,6 +135,26 @@ class pardisoSolver(object):
             self.iparm[1] = 3 # Use parallel nested dissection for reordering
         self.iparm[23] = 1 # Use parallel factorization
         self.iparm[34] = 1 # Zero base indexing
+        
+        # For highly indefinite symmetric matrices
+        if mtype == -2:
+            self.iparm[10] = 1  # Enable scaling
+            # Scale the matrix so that the diagonal elements are equal to 1 
+            # and the absolute values of the off-diagonal entries are less or 
+            # equal to 1. [...] The scaling can also be used for symmetric 
+            # indefinite matrices (mtype = -2, mtype = -4, mtype = 6) when 
+            # the symmetric weighted matchings are applied (iparm(13) = 1).            
+
+            self.iparm[12] = 1  # Enable matching.
+            # Maximum weighted matching algorithm to permute large elements 
+            # close to the diagonal. It is recommended to use iparm(11) = 1 
+            # (scaling) and iparm(13)= 1 (matching) for highly indefinite 
+            # symmetric matrices, for example from interior point 
+            # optimizations or saddle point problems.
+
+            # Reference: Intel Math Kernel Library - Developer Reference
+            #            MKL 2017
+            #            Revision: 082, pages 2468-2469
 
     def clear(self):
         '''
