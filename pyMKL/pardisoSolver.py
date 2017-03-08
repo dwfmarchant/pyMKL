@@ -180,7 +180,6 @@ class pardisoSolver(object):
 
         if rhs is None:
             nrhs = 0
-            x = np.zeros(1)
             rhs = np.zeros(1)
         else:
             if rhs.ndim == 1:
@@ -191,8 +190,10 @@ class pardisoSolver(object):
                 msg = "Right hand side must either be a 1 or 2 dimensional "+\
                       "array. Higher order right hand sides are not supported."
                 raise NotImplementedError(msg)
-            rhs = rhs.astype(self.dtype).flatten(order='f')
-            x = np.zeros(nrhs*self.n, dtype=self.dtype)
+
+        shape_out = rhs.shape
+        rhs = rhs.astype(self.dtype).flatten(order='f')
+        x = np.zeros(nrhs*self.n, dtype=self.dtype)
 
         MKL_rhs = rhs.ctypes.data_as(self.ctypes_dtype)
         MKL_x = x.ctypes.data_as(self.ctypes_dtype)
@@ -215,6 +216,6 @@ class pardisoSolver(object):
                 MKL_x,                      # x
                 byref(c_int(ERR)))          # error
 
-        if nrhs > 1:
+        if len(shape_out) == 2:
             x = x.reshape((self.n, nrhs), order='f')
         return x
