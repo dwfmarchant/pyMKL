@@ -41,7 +41,7 @@ phase options
 
 class pardisoSolver(object):
     """Wrapper class for Intel MKL Pardiso solver. """
-    def __init__(self, A, mtype=11, verbose=False):
+    def __init__(self, A, mtype=11, verbose=False, singularity_check=True):
         '''
         Parameters
         ----------
@@ -78,6 +78,7 @@ class pardisoSolver(object):
             msg = "Invalid mtype: mtype={}".format(mtype)
             raise ValueError(msg)
             
+        self.singularity_check = singularity_check
 
         self.n = A.shape[0]
 
@@ -135,6 +136,8 @@ class pardisoSolver(object):
             self.iparm[1] = 3 # Use parallel nested dissection for reordering
         self.iparm[23] = 1 # Use parallel factorization
         self.iparm[34] = 1 # Zero base indexing
+        
+        self.error = 0
 
     def clear(self):
         '''
@@ -200,7 +203,7 @@ class pardisoSolver(object):
 
         MKL_rhs = rhs.ctypes.data_as(self.ctypes_dtype)
         MKL_x = x.ctypes.data_as(self.ctypes_dtype)
-        ERR = 0
+        MKL_err = c_int(0)
 
         pardiso(self._MKL_pt,               # pt
                 byref(c_int(self.maxfct)),  # maxfct
@@ -217,7 +220,12 @@ class pardisoSolver(object):
                 byref(c_int(self.msglvl)),  # msglvl
                 MKL_rhs,                    # b
                 MKL_x,                      # x
-                byref(c_int(ERR)))          # error
+                byref(MKL_err))             # error
+                
+        self.error = MKL_err.value
+            
+        if self.singularity_check and self.iparm[13] > 0:
+            raise RuntimeError("Pardiso - Number of perturbed pivot elements = " + repr(self.iparm[13]) + ". This could mean that the matrix is singular.")
 
         if nrhs > 1:
             x = x.reshape((self.n, nrhs), order='f')
