@@ -30,7 +30,7 @@ with open('README.rst') as fp:
 
 setup(
     name = 'pyMKL',
-    version = '0.0.1',
+    version = '0.0.3',
     packages = find_packages(),
     install_requires = ['numpy>=1.7',
                         'scipy>=0.13',
@@ -43,7 +43,7 @@ setup(
     license = 'MIT',
     keywords = 'sparse linear solver mkl pardiso',
     url = 'https://github.com/dwfmarchant/pyMKL',    
-    download_url = 'https://github.com/dwfmarchant/pyMKL/tarball/0.0.1',
+    download_url = 'https://github.com/dwfmarchant/pyMKL/tarball/0.0.3',
     classifiers = CLASSIFIERS,
     platforms = ['Windows', 'Linux', 'Solaris', 'Mac OS-X', 'Unix'],
     use_2to3 = False,
