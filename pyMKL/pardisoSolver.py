@@ -89,7 +89,7 @@ class pardisoSolver(object):
             # Real matrix
             pass
         else:
-            "Invalid matrix data type: dtype is {}, but mtype={}".format(A.dtype, mtype)
+            msg = "Invalid matrix data type: dtype is {}, but mtype={}".format(A.dtype, mtype)
             raise TypeError(msg)
         self.ctypes_dtype = ctypeslib.ndpointer(self.dtype)
 
