@@ -1,6 +1,6 @@
 from ctypes import CDLL
 import sys, os, psutil
-import mk
+import mkl
 
 def _loadMKL():
     
