@@ -35,6 +35,8 @@ setup(
     install_requires = ['numpy>=1.7',
                         'scipy>=0.13',
                         'future',
+                        'mkl',
+                        'psutil',
                        ],
     author = 'Dave Marchant',
     author_email = 'dwfmarchant@gmail.com',
