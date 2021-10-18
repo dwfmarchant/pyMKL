@@ -91,6 +91,7 @@ class pardisoSolver(object):
         else:
             msg = "Invalid matrix data type: dtype is {}, but mtype={}".format(A.dtype, mtype)
             raise TypeError(msg)
+        self.dtype = A.dtype
         self.ctypes_dtype = ctypeslib.ndpointer(self.dtype)
 
         # If A is symmetric, store only the upper triangular portion 
