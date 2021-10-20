@@ -82,12 +82,16 @@ class pardisoSolver(object):
 
         self.n = A.shape[0]
 
-        if mtype in [4, -4, 6, 13]:
+        if mtype in [4, -4, 6, 13] and A.dtype in [np.complex128, np.complex64]:
             # Complex matrix
-            self.dtype = np.complex128
-        elif mtype in [2, -2, 11]:
+            pass
+        elif mtype in [2, -2, 11] and A.dtype in [np.double, np.single]:
             # Real matrix
-            self.dtype = np.float64
+            pass
+        else:
+            msg = "Invalid matrix data type: dtype is {}, but mtype={}".format(A.dtype, mtype)
+            raise TypeError(msg)
+        self.dtype = A.dtype
         self.ctypes_dtype = ctypeslib.ndpointer(self.dtype)
 
         # If A is symmetric, store only the upper triangular portion 
@@ -136,6 +140,8 @@ class pardisoSolver(object):
             self.iparm[1] = 3 # Use parallel nested dissection for reordering
         self.iparm[23] = 1 # Use parallel factorization
         self.iparm[34] = 1 # Zero base indexing
+        if self.dtype in [np.complex64, np.single]:
+            self.iparm[27] = 1  # Use single data type
         
         self.error = 0
 

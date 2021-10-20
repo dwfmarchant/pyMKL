@@ -1,30 +1,19 @@
-from ctypes import CDLL, RTLD_GLOBAL
-import sys, os
-
-platform = sys.platform
-
-libname = {'linux':'libmkl_rt.so', # works for python3 on linux
-           'linux2':'libmkl_rt.so', # works for python2 on linux
-           'darwin':'libmkl_rt.dylib',
-           'win32':'mkl_rt.dll'}
+from ctypes import CDLL
+import sys, os, psutil
+import mkl
 
 def _loadMKL():
     
     try:
-        # Look for MKL in path
-        MKLlib = CDLL(libname[platform])
-    except:
-        try:
-            # Look for anaconda mkl
-            if 'Anaconda' in sys.version:
-                if platform in ['linux', 'linux2','darwin']:
-                    libpath = ['/']+sys.executable.split('/')[:-2] + \
-                              ['lib',libname[platform]]
-                elif platform == 'win32':
-                    libpath = sys.executable.split(os.sep)[:-1] + \
-                              ['Library','bin',libname[platform]]
-                MKLlib = CDLL(os.path.join(*libpath))
-        except Exception as e: 
-            raise e
+        # from https://github.com/haasad/PyPardisoProject/commit/98701c21ae5d5b9879c51531ace93c2213c89d55
+        if sys.platform == 'darwin':
+            MKLlib = CDLL('libmkl_rt.dylib')
+        else:
+            # find the correct mkl_rt library by searching the loaded libraries of the process
+            proc = psutil.Process(os.getpid())
+            mkl_rt = [lib.path for lib in proc.memory_maps() if 'mkl_rt' in lib.path][0]
+            MKLlib = CDLL(mkl_rt)
+    except Exception as e: 
+        raise e
 
     return MKLlib
