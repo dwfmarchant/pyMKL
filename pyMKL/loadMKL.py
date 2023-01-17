@@ -33,4 +33,6 @@ def _loadMKL():
         except Exception as e: 
             raise e
 
+    if MKLlib is None:
+        raise FileNotFoundError(f"Couldn't find the MKL dll.")
     return MKLlib
