@@ -9,14 +9,20 @@ libname = {'linux':'libmkl_rt.so', # works for python3 on linux
            'win32':'mkl_rt.dll'}
 
 def _loadMKL():
-    
+    MKLlib = None
     try:
         # Look for MKL in path
         MKLlib = CDLL(libname[platform])
     except:
         try:
-            # Look for anaconda mkl
-            if 'Anaconda' in sys.version:
+            if platform == 'win32' and MKLlib is None:
+                try:
+                    MKLlib = CDLL('mkl_rt.1.dll')
+                except:
+                    MKLlib = CDLL('mkl_rt.2.dll')
+                
+            # Look for anaconda mkl if the MKLlib didn't load at this point
+            if 'Anaconda' in sys.version and MKLlib is None:
                 if platform in ['linux', 'linux2','darwin']:
                     libpath = ['/']+sys.executable.split('/')[:-2] + \
                               ['lib',libname[platform]]
@@ -27,4 +33,6 @@ def _loadMKL():
         except Exception as e: 
             raise e
 
+    if MKLlib is None:
+        raise FileNotFoundError(f"Couldn't find the MKL dll.")
     return MKLlib
